@@ -2,9 +2,8 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :hemera,
-  source_url: "http://cal.syoboi.jp/",
-  settings_in_cookie: "Sidebar=0; ViewDays=1; TimeGraph=0;"
+config :hemera, Anime,
+  source_url: "http://cal.syoboi.jp/rss2.php?alt=json&days=1"
 
 config :logger, :console,
   level: :info,
