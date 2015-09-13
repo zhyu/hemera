@@ -4,7 +4,7 @@ daily anime reminder
 
 ### TODO
 
-- [*] fetch daily anime
+- [x] fetch daily anime
 - [ ] save to db
 - [ ] send chat by telegram
 - [ ] set reminder
