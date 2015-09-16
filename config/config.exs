@@ -5,6 +5,10 @@ use Mix.Config
 config :hemera, Anime,
   source_url: "http://cal.syoboi.jp/rss2.php?alt=json&days=1"
 
+config :quantum, cron: [
+  "@daily": {Hemera.Anime, :fetch}
+]
+
 config :logger, :console,
   level: :info,
   format: "$date $time [$level] $metadata$message\n",
