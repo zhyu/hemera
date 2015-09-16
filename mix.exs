@@ -14,7 +14,8 @@ defmodule Hemera.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :httpoison, :quantum]]
+    [applications: [:logger, :httpoison, :quantum],
+    mod: {Hemera, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -30,7 +31,9 @@ defmodule Hemera.Mixfile do
     [
       {:httpoison, "~> 0.7"},
       {:poison, "~> 1.5"},
-      {:quantum, "~> 1.4"}
+      {:quantum, "~> 1.4"},
+      {:redix, "~> 0.1"},
+      {:poolboy, "~> 1.5"}
     ]
   end
 end
