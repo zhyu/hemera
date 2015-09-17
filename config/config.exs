@@ -6,7 +6,7 @@ config :hemera, Anime,
   source_url: "http://cal.syoboi.jp/rss2.php?alt=json&days=1"
 
 config :quantum, cron: [
-  "@daily": {Hemera.Anime, :fetch}
+  "@hourly": {Hemera.Anime, :collect}
 ]
 
 config :logger, :console,

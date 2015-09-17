@@ -3,15 +3,17 @@ defmodule Hemera.Anime do
 
   defp source_url, do: get_conf[:source_url]
 
-  defp append_id(anime = %{"ChID" => chid, "TID" => tid, "PID" => pid}) do
-    Dict.put(anime, "id", Enum.join([chid, tid, pid], "-"))
+  defp save_to_redis(item = %{"PID" => pid, "StTime" => start_time}) do
+    [["HSET", "anime_detail", pid, Poison.encode!(item)],
+    ["ZADD", "anime", start_time, pid]]
   end
 
-  def fetch do
+  def collect do
     %HTTPoison.Response{body: body}= source_url |> HTTPoison.get!
     body
     |> Poison.decode!
     |> Dict.get("items")
-    |> Enum.map(&append_id/1)
+    |> Enum.flat_map(&save_to_redis/1)
+    |> Hemera.RedisPool.pipeline
   end
 end
