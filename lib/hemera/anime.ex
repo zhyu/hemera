@@ -4,7 +4,7 @@ defmodule Hemera.Anime do
   defp source_url, do: get_conf[:source_url]
 
   defp save_to_redis(item = %{"PID" => pid, "StTime" => start_time}) do
-    [["HSET", "anime_detail", pid, Poison.encode!(item)],
+    [["SET", pid, Poison.encode!(item), "EX", "86400"],
     ["ZADD", "anime", start_time, pid]]
   end
 
