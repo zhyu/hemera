@@ -5,6 +5,9 @@ use Mix.Config
 config :hemera, Anime,
   source_url: "http://cal.syoboi.jp/rss2.php?alt=json&days=1"
 
+config :hemera, Bot,
+  sticker_id: "sticker_token"
+
 config :quantum, cron: [
   "@hourly": {Hemera.Anime, :collect}
 ]

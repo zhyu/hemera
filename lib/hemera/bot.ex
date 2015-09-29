@@ -22,6 +22,14 @@ defmodule Hemera.Bot do
     Nadia.send_message(user_id, "pong")
   end
 
+  def handle_message(%Message{chat: %User{id: user_id}}) do
+    Nadia.send_sticker(user_id, sticker)
+  end
+
   # fallback
   def handle_message(_), do: true
+
+  defp get_conf, do: Application.get_env(:hemera, Bot)
+
+  defp sticker, do: get_conf[:sticker_id]
 end
