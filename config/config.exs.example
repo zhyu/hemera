@@ -9,6 +9,9 @@ config :quantum, cron: [
   "@hourly": {Hemera.Anime, :collect}
 ]
 
+config :nadia,
+  token: "bot_token"
+
 config :logger, :console,
   level: :info,
   format: "$date $time [$level] $metadata$message\n",
