@@ -14,6 +14,7 @@ defmodule Hemera.Anime do
     |> Poison.decode!
     |> Dict.get("items")
     |> Enum.flat_map(&save_to_redis/1)
+    |> List.insert_at(0, ["DEL", "anime"])
     |> Hemera.RedisPool.pipeline
   end
 end
