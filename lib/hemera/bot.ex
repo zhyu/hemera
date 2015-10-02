@@ -36,6 +36,18 @@ defmodule Hemera.Bot do
     bot_api.send_message(user_id, reply)
   end
 
+  def handle_message(%Message{chat: %User{id: user_id}, text: "/set_anime_user"}) do
+    bot_api.send_message(user_id, "Please specify your username.")
+  end
+
+  def handle_message(%Message{chat: %User{id: user_id}, text: "/set_anime_user " <> username}) do
+    [~w(SADD anime_users #{user_id}), ~w(HSET anime_user:#{user_id} name #{username})]
+    |> Hemera.RedisPool.pipeline
+
+    reply = "GJ! You will be notified of animes from tv channels you selected."
+    bot_api.send_message(user_id, reply)
+  end
+
   def handle_message(%Message{chat: %User{id: user_id}}) do
     bot_api.send_sticker(user_id, sticker)
   end
