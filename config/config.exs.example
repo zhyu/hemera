@@ -8,6 +8,9 @@ config :hemera, Anime,
 config :hemera, Bot,
   sticker_id: "sticker_token"
 
+config :hemera,
+  bot_api: Nadia
+
 config :quantum, cron: [
   "@hourly": {Hemera.Anime, :collect}
 ]
