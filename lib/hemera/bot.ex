@@ -1,4 +1,5 @@
 defmodule Hemera.Bot do
+  alias Hemera.Anime
   alias Nadia.Model.Message
   alias Nadia.Model.User
 
@@ -23,7 +24,7 @@ defmodule Hemera.Bot do
   end
 
   def handle_message(%Message{chat: %User{id: user_id}, text: "/set_anime_reminder"}) do
-    Hemera.RedisPool.command(~w(SADD anime_users #{user_id}))
+    Anime.add_user(user_id)
 
     reply = """
     If you want to custom tv channels you'd like to watch, you can sign up at:
@@ -41,8 +42,8 @@ defmodule Hemera.Bot do
   end
 
   def handle_message(%Message{chat: %User{id: user_id}, text: "/set_anime_user " <> username}) do
-    [~w(SADD anime_users #{user_id}), ~w(HSET anime_user:#{user_id} name #{username})]
-    |> Hemera.RedisPool.pipeline
+    Anime.add_user(user_id)
+    Anime.set_username(user_id, username)
 
     reply = "GJ! You will be notified of animes from tv channels you selected."
     bot_api.send_message(user_id, reply)
