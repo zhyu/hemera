@@ -9,7 +9,7 @@ defmodule Hemera.Bot do
     {:ok, updates} = bot_api.get_updates(offset: offset)
     if length(updates) > 0 do
       offset = List.last(updates).update_id + 1
-      Hemera.Dispatch.dispatch_updates(updates)
+      Hemera.Dispatcher.dispatch_updates(updates)
     end
     :timer.sleep(200)
     pull_updates(offset)
