@@ -22,6 +22,20 @@ defmodule Hemera.Bot do
     bot_api.send_message(user_id, "pong")
   end
 
+  def handle_message(%Message{chat: %User{id: user_id}, text: "/set_anime_reminder"}) do
+    Hemera.RedisPool.command(~w(SADD anime_users #{user_id}))
+
+    reply = """
+    If you want to custom tv channels you'd like to watch, you can sign up at:
+    http://cal.syoboi.jp/usr
+
+    After finish setting up your account, let me know by "/set_anime_user $username".
+
+    Otherwise, you will be notified of animes from all tv channels.
+    """
+    bot_api.send_message(user_id, reply)
+  end
+
   def handle_message(%Message{chat: %User{id: user_id}}) do
     bot_api.send_sticker(user_id, sticker)
   end
