@@ -6,3 +6,5 @@ otp_release:
   - 18.0
 services:
   - redis-server
+script:
+  - MIX_ENV=test mix test --no-start

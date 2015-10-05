@@ -5,6 +5,7 @@ defmodule Hemera.AnimeTest do
   alias Hemera.RedisPool, as: Redis
 
   setup_all do
+    Redis.start_link
     Redis.command(["FLUSHDB"])
     :ok
   end
