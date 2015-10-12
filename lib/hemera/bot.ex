@@ -7,12 +7,13 @@ defmodule Hemera.Bot do
   pull updates and send to dispatcher
   """
   def pull_updates(offset \\ -1) do
-    {:ok, updates} = bot_api.get_updates(offset: offset)
-    if length(updates) > 0 do
-      offset = List.last(updates).update_id + 1
-      Hemera.Dispatcher.dispatch_updates(updates)
+    case bot_api.get_updates(offset: offset) do
+      {:ok, updates} when length(updates) > 0 ->
+        offset = List.last(updates).update_id + 1
+        Hemera.Dispatcher.dispatch_updates(updates)
+        :timer.sleep(200)
+      _ -> :timer.sleep(500)
     end
-    :timer.sleep(200)
     pull_updates(offset)
   end
 
