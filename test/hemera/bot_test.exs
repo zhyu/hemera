@@ -2,7 +2,9 @@ defmodule Hemera.BotTest do
   use ExUnit.Case
 
   alias Nadia.Model.Message
-  alias Nadia.Model.User
+  alias Nadia.Model.Chat
+
+  import Hemera.Bot, only: [handle_message: 1]
 
   setup_all do
     Application.put_env(:hemera, :bot_api, Telegram.TestClient)
@@ -11,12 +13,14 @@ defmodule Hemera.BotTest do
   end
 
   test "ping" do
-    {:ok, res} = Hemera.Bot.handle_message(%Message{chat: %User{id: 666}, text: "ping"})
+    {:ok, res} = handle_message(%Message{chat: %Chat{id: 666, type: "private"},
+                                         text: "ping"})
     assert res == "Send message to 666: pong"
   end
 
   test "sticker" do
-    {:ok, res} = Hemera.Bot.handle_message(%Message{chat: %User{id: 666}, text: "hi"})
+    {:ok, res} = handle_message(%Message{chat: %Chat{id: 666, type: "private"},
+                                         text: "hi"})
     assert res == "Send sticker to 666: test_sticker"
   end
 end
