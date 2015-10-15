@@ -14,7 +14,7 @@ defmodule Hemera.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :httpoison, :quantum, :nadia],
+    [applications: [:logger, :tzdata, :httpoison, :quantum, :nadia],
     mod: {Hemera, []}]
   end
 
@@ -29,8 +29,9 @@ defmodule Hemera.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
+      {:timex, "~> 1.0.0-rc1"},
       {:httpoison, "~> 0.7"},
-      {:poison, "~> 1.5"},
+      {:sweet_xml, "~> 0.4.0"},
       {:quantum, "~> 1.4"},
       {:redix, "~> 0.1"},
       {:poolboy, "~> 1.5"},
