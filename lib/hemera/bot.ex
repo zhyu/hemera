@@ -4,20 +4,6 @@ defmodule Hemera.Bot do
   alias Nadia.Model.Chat
 
   @doc """
-  pull updates and send to dispatcher
-  """
-  def pull_updates(offset \\ -1) do
-    case bot_api.get_updates(offset: offset) do
-      {:ok, updates} when length(updates) > 0 ->
-        offset = List.last(updates).update_id + 1
-        Hemera.Dispatcher.dispatch_updates(updates)
-        :timer.sleep(200)
-      _ -> :timer.sleep(500)
-    end
-    pull_updates(offset)
-  end
-
-  @doc """
   handle incoming message
   """
   def handle_message(%Message{chat: %Chat{type: "private", id: chat_id}, text: text}) do
