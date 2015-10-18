@@ -1,11 +1,8 @@
 # Hemera
 
-daily anime reminder
+my telegram bot
 
-### TODO
+### Features
 
-- [x] fetch daily anime
-- [ ] save to db
-- [ ] send chat by telegram
-- [ ] set reminder
-- [ ] check and send reminder
+- [x] notify daily anime
+- [ ] add 115lixian tasks from rss
