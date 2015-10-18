@@ -3,7 +3,7 @@
 use Mix.Config
 
 config :hemera, Bot,
-  sticker_id: "sticker_token"
+  stickers: ["sticker1", "sticker2"]
 
 config :hemera,
   bot_api: Nadia

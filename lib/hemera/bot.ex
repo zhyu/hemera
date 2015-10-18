@@ -58,12 +58,15 @@ defmodule Hemera.Bot do
   end
 
   defp handle_private_message(chat_id, _) do
-    bot_api.send_sticker(chat_id, sticker)
+    :random.seed(:os.timestamp)
+    bot_api.send_sticker(chat_id, random_sticker)
   end
 
   defp bot_api, do: Application.get_env(:hemera, :bot_api)
 
   defp get_conf, do: Application.get_env(:hemera, Bot)
 
-  defp sticker, do: get_conf[:sticker_id]
+  defp stickers, do: get_conf[:stickers]
+
+  defp random_sticker, do: Enum.random(stickers)
 end
