@@ -52,7 +52,7 @@ defmodule Hemera.Anime do
 
   # 0600 of tomorrow
   defp end_of_today do
-    Date.now
+    Date.local
     |> Date.add(Time.to_timestamp(1, :days))
     |> Date.set([hour: 6, minute: 0])
     |> DateFormat.format!("{YYYY}{0M}{0D}{h24}{m}")
