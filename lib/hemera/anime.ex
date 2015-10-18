@@ -9,31 +9,13 @@ defmodule Hemera.Anime do
   @base_url "http://cal.syoboi.jp/rss2.php"
   @title_format "$(StTime)$(OffsetB)%20$(Mark)$(MarkW)%20[$(ChName)]|crlf|$(Title)|crlf|$(SubTitleB)"
 
-  defp get_conf, do: Application.get_env(:hemera, Anime)
-
-  defp source_url, do: get_conf[:source_url]
-
-  defp save_to_redis(item = %{"PID" => pid, "StTime" => start_time}) do
-    [["SET", pid, Poison.encode!(item), "EX", "86400"],
-    ["ZADD", "anime", start_time, pid]]
-  end
-
-  def collect do
-    %HTTPoison.Response{body: body}= source_url |> HTTPoison.get!
-    body
-    |> Poison.decode!
-    |> Dict.get("items")
-    |> Enum.flat_map(&save_to_redis/1)
-    |> List.insert_at(0, ["DEL", "anime"])
-    |> Hemera.RedisPool.pipeline
-  end
-
   def add_user(user_id) do
     Redis.command(~w(SADD anime_users #{user_id}))
   end
 
   def get_users do
     {:ok, users} = Redis.command(~w(SMEMBERS anime_users))
+    unless is_list(users), do: users = [users]
     users
   end
 
@@ -46,7 +28,7 @@ defmodule Hemera.Anime do
     username
   end
 
-  def get_for_user(user_id) do
+  def get_daily_anime_for_user(user_id) do
     %HTTPoison.Response{body: body} = user_id |> build_url |> HTTPoison.get!
     body
     |> xpath(~x"//item/title/text()"sl)

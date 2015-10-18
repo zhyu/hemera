@@ -2,9 +2,6 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :hemera, Anime,
-  source_url: "http://cal.syoboi.jp/rss2.php?alt=json&days=1"
-
 config :hemera, Bot,
   sticker_id: "sticker_token"
 
@@ -12,7 +9,7 @@ config :hemera,
   bot_api: Nadia
 
 config :quantum, cron: [
-  "@hourly": {Hemera.Anime, :collect}
+  "0 8,18 * * *": {Hemera.Task, :send_daily_anime_to_users}
 ]
 
 config :nadia,
