@@ -17,7 +17,7 @@ defmodule Hemera.Bot do
     bot_api.send_message(chat_id, "pong")
   end
 
-  defp handle_private_message(chat_id, "/set_anime_reminder") do
+  defp handle_private_message(chat_id, "/add_user") do
     Anime.add_user(chat_id)
 
     reply = """
@@ -31,12 +31,11 @@ defmodule Hemera.Bot do
     bot_api.send_message(chat_id, reply)
   end
 
-  defp handle_private_message(chat_id, "/set_anime_user") do
+  defp handle_private_message(chat_id, "/set_username") do
     bot_api.send_message(chat_id, "Please specify your username.")
   end
 
-  defp handle_private_message(chat_id, "/set_anime_user " <> username) do
-    Anime.add_user(chat_id)
+  defp handle_private_message(chat_id, "/set_username " <> username) do
     Anime.set_username(chat_id, username)
 
     reply = "GJ! You will be notified of animes from tv channels you selected."

@@ -15,13 +15,13 @@ defmodule Hemera.Task do
     pull_updates(offset)
   end
 
-  def send_daily_anime_to_users do
+  def send_daily_anime do
     Anime.get_users
-    |> Enum.each(&Task.Supervisor.start_child(Hemera.TaskSupervisor, __MODULE__, :send_daily_anime_to_user, [&1]))
+    |> Enum.each(&Task.Supervisor.start_child(Hemera.TaskSupervisor, __MODULE__, :send_daily_anime, [&1]))
   end
 
-  def send_daily_anime_to_user(user_id) do
-    msg = Anime.get_daily_anime_for_user(user_id)
+  def send_daily_anime(user_id) do
+    msg = Anime.get_daily_anime(user_id)
     bot_api.send_message(user_id, msg)
   end
 

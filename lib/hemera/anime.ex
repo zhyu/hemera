@@ -38,7 +38,7 @@ defmodule Hemera.Anime do
     rss_list
   end
 
-  def get_daily_anime_for_user(user_id) do
+  def get_daily_anime(user_id) do
     %HTTPoison.Response{body: body} = user_id |> build_url |> HTTPoison.get!
     body
     |> xpath(~x"//item/title/text()"sl)
