@@ -8,7 +8,7 @@ defmodule Hemera.BotTest do
 
   setup_all do
     Application.put_env(:hemera, :bot_api, Telegram.TestClient)
-    Application.put_env(:hemera, Bot, sticker_id: "test_sticker")
+    Application.put_env(:hemera, Bot, stickers: ["test_sticker"])
     :ok
   end
 

@@ -13,7 +13,7 @@ defmodule Hemera.AnimeTest do
   test "anime users" do
     assert Anime.add_user(666) == {:ok, 1}
 
-    assert Anime.get_users == "666"
+    assert Anime.get_users == ~w(666)
 
     assert Anime.add_user(777) == {:ok, 1}
 
