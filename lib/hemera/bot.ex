@@ -24,7 +24,7 @@ defmodule Hemera.Bot do
     If you want to custom tv channels you'd like to watch, you can sign up at:
     http://cal.syoboi.jp/usr
 
-    After finish setting up your account, let me know by "/set_anime_user $username".
+    After finish setting up your account, let me know by "/set_username $username".
 
     Otherwise, you will be notified of animes from all tv channels.
     """
