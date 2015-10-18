@@ -43,6 +43,12 @@ defmodule Hemera.Bot do
     bot_api.send_message(chat_id, reply)
   end
 
+  defp handle_private_message(chat_id, "/add_rss " <> rss) do
+    Anime.add_rss(chat_id, rss)
+
+    bot_api.send_message(chat_id, "GJ!")
+  end
+
   defp handle_private_message(chat_id, _) do
     :random.seed(:os.timestamp)
     bot_api.send_sticker(chat_id, random_sticker)

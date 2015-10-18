@@ -28,6 +28,16 @@ defmodule Hemera.Anime do
     username
   end
 
+  def add_rss(user_id, rss) do
+    Redis.command(~w(SADD anime_rss:#{user_id} #{rss}))
+  end
+
+  def get_rss_list(user_id) do
+    {:ok, rss_list} = Redis.command(~w(SMEMBERS anime_rss:#{user_id}))
+    unless is_list(rss_list), do: rss_list = [rss_list]
+    rss_list
+  end
+
   def get_daily_anime_for_user(user_id) do
     %HTTPoison.Response{body: body} = user_id |> build_url |> HTTPoison.get!
     body
