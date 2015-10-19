@@ -4,6 +4,11 @@ defmodule Hemera.Bot do
   alias Nadia.Model.Chat
 
   @doc """
+  Telegram Bot API. read config from environment.
+  """
+  def api, do: Application.get_env(:hemera, :bot_api)
+
+  @doc """
   handle incoming message
   """
   def handle_message(%Message{chat: %Chat{type: "private", id: chat_id}, text: text}) do
@@ -14,7 +19,7 @@ defmodule Hemera.Bot do
   def handle_message(_), do: true
 
   defp handle_private_message(chat_id, "ping") do
-    bot_api.send_message(chat_id, "pong")
+    api.send_message(chat_id, "pong")
   end
 
   defp handle_private_message(chat_id, "/add_user") do
@@ -28,32 +33,30 @@ defmodule Hemera.Bot do
 
     Otherwise, you will be notified of animes from all tv channels.
     """
-    bot_api.send_message(chat_id, reply)
+    api.send_message(chat_id, reply)
   end
 
   defp handle_private_message(chat_id, "/set_username") do
-    bot_api.send_message(chat_id, "Please specify your username.")
+    api.send_message(chat_id, "Please specify your username.")
   end
 
   defp handle_private_message(chat_id, "/set_username " <> username) do
     Anime.set_username(chat_id, username)
 
     reply = "GJ! You will be notified of animes from tv channels you selected."
-    bot_api.send_message(chat_id, reply)
+    api.send_message(chat_id, reply)
   end
 
   defp handle_private_message(chat_id, "/add_rss " <> rss) do
     Anime.add_rss(chat_id, rss)
 
-    bot_api.send_message(chat_id, "GJ!")
+    api.send_message(chat_id, "GJ!")
   end
 
   defp handle_private_message(chat_id, _) do
     :random.seed(:os.timestamp)
-    bot_api.send_sticker(chat_id, random_sticker)
+    api.send_sticker(chat_id, random_sticker)
   end
-
-  defp bot_api, do: Application.get_env(:hemera, :bot_api)
 
   defp get_conf, do: Application.get_env(:hemera, Bot)
 
