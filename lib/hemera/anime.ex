@@ -45,8 +45,9 @@ defmodule Hemera.Anime do
   def get_daily_anime(user_id) do
     %HTTPoison.Response{body: body} = user_id |> build_url |> HTTPoison.get!
     body
+    |> String.replace("&amp;", "|AND|")
     |> xpath(~x"//item/title/text()"sl)
-    |> Enum.map_join("\n------\n", &String.replace(&1, "|crlf|", "\n"))
+    |> Enum.map_join("\n------\n", &unescape/1)
   end
 
   defp build_url(user_id) do
@@ -60,5 +61,11 @@ defmodule Hemera.Anime do
     |> Date.add(Time.to_timestamp(1, :days))
     |> Date.set([hour: 6, minute: 0])
     |> DateFormat.format!("{YYYY}{0M}{0D}{h24}{m}")
+  end
+
+  defp unescape(content) do
+    content
+    |> String.replace("|crlf|", "\n")
+    |> String.replace("|AND|", "&")
   end
 end
