@@ -32,6 +32,10 @@ defmodule Hemera.Anime do
     Redis.command(~w(SADD anime_rss:#{user_id} #{rss}))
   end
 
+  def remove_rss(user_id, rss) do
+    Redis.command(~w(SREM anime_rss:#{user_id} #{rss}))
+  end
+
   def get_rss_list(user_id) do
     {:ok, rss_list} = Redis.command(~w(SMEMBERS anime_rss:#{user_id}))
     unless is_list(rss_list), do: rss_list = [rss_list]

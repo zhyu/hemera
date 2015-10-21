@@ -53,6 +53,21 @@ defmodule Hemera.Bot do
     api.send_message(chat_id, "GJ!")
   end
 
+  defp handle_private_message(chat_id, "/remove_rss " <> rss) do
+    Anime.remove_rss(chat_id, rss)
+
+    api.send_message(chat_id, "QAQ")
+  end
+
+  defp handle_private_message(chat_id, "/show_rss_list") do
+    reply = chat_id
+    |> Anime.get_rss_list
+    |> Enum.join("\n------\n")
+
+    if reply == "", do: reply = "Empty list! Use /add_rss $your_rss_link to add some."
+    api.send_message(chat_id, reply)
+  end
+
   defp handle_private_message(chat_id, _) do
     :random.seed(:os.timestamp)
     api.send_sticker(chat_id, random_sticker)

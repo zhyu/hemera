@@ -34,5 +34,9 @@ defmodule Hemera.AnimeTest do
     assert Anime.add_rss(666, "rss2") == {:ok, 1}
 
     assert 666 |> Anime.get_rss_list |> Enum.sort == ~w(rss1 rss2)
+
+    assert Anime.remove_rss(666, "rss1") == {:ok, 1}
+
+    assert Anime.get_rss_list(666) == ~w(rss2)
   end
 end
