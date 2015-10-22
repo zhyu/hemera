@@ -47,6 +47,11 @@ defmodule Hemera.Bot do
     api.send_message(chat_id, reply)
   end
 
+  defp handle_private_message(chat_id, "/show_daily_anime") do
+    reply = Anime.get_daily_anime(chat_id)
+    api.send_message(chat_id, reply)
+  end
+
   defp handle_private_message(chat_id, "/add_rss " <> rss) do
     Anime.add_rss(chat_id, rss)
 
