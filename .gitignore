@@ -1,5 +1,5 @@
 /_build
-/config/config.exs
+/config/dev.exs
 /deps
 erl_crash.dump
 *.ez

@@ -9,8 +9,6 @@ defmodule Hemera.BotTest do
   import Hemera.Bot, only: [handle_message: 1]
 
   setup_all do
-    Application.put_env(:hemera, :bot_api, Telegram.TestClient)
-    Application.put_env(:hemera, Bot, stickers: ["test_sticker"])
     Hemera.RedisPool.command(["FLUSHDB"])
     :ok
   end
@@ -67,21 +65,4 @@ defmodule Hemera.BotTest do
     handle_message(%{context.message | text: "/show_rss_list"})
     assert_received {:message, 555, "rss_link2"}
   end
-end
-
-defmodule Telegram.Marco do
-  defmacro gen_send_func(item) do
-    quote do
-      def unquote(:"send_#{item}")(chat_id, content) do
-        send self, {unquote(item), chat_id, content}
-      end
-    end
-  end
-end
-
-defmodule Telegram.TestClient do
-  import Telegram.Marco
-
-  gen_send_func :message
-  gen_send_func :sticker
 end
