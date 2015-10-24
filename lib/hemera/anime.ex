@@ -1,5 +1,6 @@
 defmodule Hemera.Anime do
   alias Hemera.RedisPool, as: Redis
+  alias Hemera.User
   alias Timex.Date
   alias Timex.DateFormat
   alias Timex.Time
@@ -8,25 +9,6 @@ defmodule Hemera.Anime do
 
   @base_url "http://cal.syoboi.jp/rss2.php"
   @title_format "$(StTime)$(OffsetB)%20$(Mark)$(MarkW)%20[$(ChName)]|crlf|$(Title)|crlf|$(SubTitleB)"
-
-  def add_user(user_id) do
-    Redis.command(~w(SADD anime_users #{user_id}))
-  end
-
-  def get_users do
-    {:ok, users} = Redis.command(~w(SMEMBERS anime_users))
-    unless is_list(users), do: users = [users]
-    users
-  end
-
-  def set_username(user_id, username) do
-    Redis.command(~w(HSET anime_user:#{user_id} name #{username}))
-  end
-
-  def get_username(user_id) do
-    {:ok, username} = Redis.command(~w(HGET anime_user:#{user_id} name))
-    username
-  end
 
   def add_rss(user_id, rss) do
     Redis.command(~w(SADD anime_rss:#{user_id} #{rss}))
@@ -51,7 +33,7 @@ defmodule Hemera.Anime do
   end
 
   defp build_url(user_id) do
-    username = get_username(user_id)
+    username = User.get_name(user_id)
     "#{@base_url}?titlefmt=#{@title_format}&end=#{end_of_today}&usr=#{username}"
   end
 

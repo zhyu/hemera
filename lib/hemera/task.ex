@@ -1,5 +1,6 @@
 defmodule Hemera.Task do
   alias Hemera.Anime
+  alias Hemera.User
 
   @doc """
   pull updates and send to dispatcher
@@ -16,7 +17,7 @@ defmodule Hemera.Task do
   end
 
   def send_daily_anime do
-    Anime.get_users
+    User.get_list
     |> Enum.each(&Task.Supervisor.start_child(Hemera.TaskSupervisor, __MODULE__, :send_daily_anime, [&1]))
   end
 

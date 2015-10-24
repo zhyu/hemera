@@ -1,5 +1,6 @@
 defmodule Hemera.Bot do
   alias Hemera.Anime
+  alias Hemera.User
   alias Nadia.Model.Message
   alias Nadia.Model.Chat
 
@@ -23,7 +24,7 @@ defmodule Hemera.Bot do
   end
 
   defp handle_private_message(chat_id, "/add_user") do
-    Anime.add_user(chat_id)
+    User.add(chat_id)
 
     reply = """
     If you want to custom tv channels you'd like to watch, you can sign up at:
@@ -41,7 +42,7 @@ defmodule Hemera.Bot do
   end
 
   defp handle_private_message(chat_id, "/set_username " <> username) do
-    Anime.set_username(chat_id, username)
+    User.set_name(chat_id, username)
 
     reply = "GJ! You will be notified of animes from tv channels you selected."
     api.send_message(chat_id, reply)
