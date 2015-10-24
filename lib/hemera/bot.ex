@@ -27,12 +27,12 @@ defmodule Hemera.Bot do
     User.add(chat_id)
 
     reply = """
+    You will be notified of animes from all tv channels.
+
     If you want to custom tv channels you'd like to watch, you can sign up at:
     http://cal.syoboi.jp/usr
 
     After finish setting up your account, let me know by "/set_username $username".
-
-    Otherwise, you will be notified of animes from all tv channels.
     """
     api.send_message(chat_id, reply)
   end
@@ -44,7 +44,7 @@ defmodule Hemera.Bot do
   defp handle_private_message(chat_id, "/set_username " <> username) do
     User.set_name(chat_id, username)
 
-    reply = "GJ! You will be notified of animes from tv channels you selected."
+    reply = "You will be notified of animes from tv channels you selected."
     api.send_message(chat_id, reply)
   end
 
@@ -68,6 +68,7 @@ defmodule Hemera.Bot do
   defp handle_private_message(chat_id, "/show_rss_list") do
     reply = chat_id
     |> Anime.get_rss_list
+    |> Enum.sort
     |> Enum.join("\n------\n")
 
     if reply == "", do: reply = "Empty list! Use /add_rss $your_rss_link to add some."
