@@ -8,7 +8,7 @@ config :hemera,
 
 config :quantum,
   cron: [
-  "0 8,18 * * *": {Hemera.Task, :send_daily_anime}
+  #"0 8,18 * * *": {Hemera.Task, :send_daily_anime}
   ],
   timezone: :local
 
