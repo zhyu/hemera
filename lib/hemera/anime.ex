@@ -5,8 +5,6 @@ defmodule Hemera.Anime do
   alias Timex.DateFormat
   alias Timex.Time
 
-  import SweetXml
-
   @base_url "http://cal.syoboi.jp/rss2.php"
   @title_format "$(StTime)$(OffsetB)%20$(Mark)$(MarkW)%20[$(ChName)]|crlf|$(Title)|crlf|$(SubTitleB)"
 
@@ -27,9 +25,9 @@ defmodule Hemera.Anime do
   def get_daily_anime(user_id) do
     %HTTPoison.Response{body: body} = user_id |> build_url |> HTTPoison.get!
     body
-    |> String.replace("&amp;", "|AND|")
-    |> xpath(~x"//item/title/text()"sl)
-    |> Enum.map_join("\n------\n", &unescape/1)
+    |> Floki.find("item title")
+    |> Enum.map_join("\n------\n", &Floki.FlatText.get/1)
+    |> String.replace("|crlf|", "\n")
   end
 
   defp build_url(user_id) do
@@ -43,11 +41,5 @@ defmodule Hemera.Anime do
     |> Date.add(Time.to_timestamp(1, :days))
     |> Date.set([hour: 6, minute: 0])
     |> DateFormat.format!("{YYYY}{0M}{0D}{h24}{m}")
-  end
-
-  defp unescape(content) do
-    content
-    |> String.replace("|crlf|", "\n")
-    |> String.replace("|AND|", "&")
   end
 end

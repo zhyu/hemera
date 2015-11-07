@@ -31,7 +31,7 @@ defmodule Hemera.Mixfile do
     [
       {:timex, "~> 1.0.0-rc1"},
       {:httpoison, "~> 0.7"},
-      {:sweet_xml, "~> 0.4.0"},
+      {:floki, "~> 0.7"},
       {:quantum, "~> 1.4"},
       {:redix, "~> 0.1"},
       {:poolboy, "~> 1.5"},
